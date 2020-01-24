@@ -1,0 +1,50 @@
+<div class="row">
+  <div class="col mb-2">
+    <button mat-fab color="primary" routerLink="/features/create" class="float-right">
+      <mat-icon>add</mat-icon>
+    </button>
+  </div>
+</div>
+<div class="row">
+  <div class="col features">
+    <mat-form-field>
+      <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+    </mat-form-field>
+    <mat-accordion multi="true">
+      <mat-expansion-panel *ngFor="let feature of filteredFeatures">
+        <mat-expansion-panel-header collapsedHeight="80px" expandedHeight="80px">
+          <table class="feature__table">
+            <tbody>
+              <tr>
+                <td style="width: 5%">{{ feature.targetProcessId }}</td>
+                <td style="width: 10%">{{ feature.assigned }}</td>
+                <td style="width: 45%">{{ feature.title }}</td>
+                <td style="width: 40%">
+                  <div *ngFor="let stage of feature.stages" 
+                    class="d-inline mr-3"
+                    matBadge="✔"
+                    [matBadgeHidden]="!stage.isSignedOff"
+                    matBadgeColor="primary">
+                    <button 
+                      [class]="'btn btn-sm rounded-pill ' + (stage.isDeployed ? 'btn-success' : 'btn-outline-success')"
+                      (click)="deployToEnvironment($event)">{{ stage.name }}</button>
+                  </div>
+                  
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </mat-expansion-panel-header>
+        <mat-list>
+          <mat-list-item *ngFor="let release of feature.releases">
+            {{ release.releaseDefinition.name }} - {{ release.name }}
+          </mat-list-item>
+        </mat-list>
+        <mat-action-row>
+          <button mat-raised-button color="warn" (click)="deleteFeature(feature.id)">Delete</button>
+          <button mat-raised-button color="primary" [routerLink]="['/features', feature.id]">Edit</button>
+        </mat-action-row>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </div>
+</div>

@@ -1,0 +1,91 @@
+<div id="featureForm" class="row">
+    <div class="col mb-2">
+      <div class="card">
+        <div class="card-body">
+            <form (ngSubmit)="onSubmit()" #featureForm="ngForm">
+                <mat-form-field>
+                    <input matInput placeholder="Target Process Id"
+                      name="targetProcessId" 
+                      [(ngModel)]="model.targetProcessId" />
+                </mat-form-field>
+                <mat-form-field>
+                    <input matInput placeholder="Assigned"
+                      name="assigned"
+                      [(ngModel)]="model.assigned">
+                </mat-form-field>
+                <mat-form-field>
+                  <input matInput placeholder="Title"
+                  name="title"
+                  [(ngModel)]="model.title" />
+                </mat-form-field>
+                <mat-form-field>
+                  <textarea matInput placeholder="Description"
+                    name="description"
+                    [(ngModel)]="model.description"></textarea>
+                </mat-form-field>
+                <mat-form-field>
+                  <mat-chip-list #chipList>
+                    <mat-chip *ngFor="let tag of model.tags" [selectable]="true"
+                             [removable]="true" (removed)="removeTag(tag)">
+                      {{tag}}
+                      <mat-icon matChipRemove>cancel</mat-icon>
+                    </mat-chip>
+                    <input placeholder="Tags"
+                           [matChipInputFor]="chipList"
+                           [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                           [matChipInputAddOnBlur]="true"
+                           (matChipInputTokenEnd)="addTag($event)">
+                  </mat-chip-list>
+                </mat-form-field>
+                <app-search-select 
+                  [placeholderLabel]="'Release Definition'"
+                  [items]="releaseDefinitions"
+                  (change)="onReleaseDefinitionChanged($event)"></app-search-select>
+                <app-search-select 
+                  [placeholderLabel]="'Release'"
+                  [items]="releases"
+                  (change)="onReleaseChanged($event)"></app-search-select>
+                <div class="form-group">
+                    <table class="table table-borderless table-sm">
+                        <thead>
+                            <tr class="table-info">
+                                <th scope="col">#</th>
+                                <th scope="col">Release definition</th>
+                                <th scope="col">Release</th>
+                                <th scope="col"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let release of model.releases; let i=index">
+                                <th>
+                                  {{ i + 1 }}
+                                </th>
+                                <td>
+                                    {{ release.releaseDefinition.name }}
+                                </td>
+                                <td>
+                                    {{ release.name }}
+                                </td>
+                                <td>
+                                    <button type="button" class="btn btn-sm btn-danger" (click)="onRemove(release.id)">Remove</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="row mb-3" *ngFor="let stage of model.stages">
+                  <div class="col-2">
+                      <mat-checkbox [name]="stage.name + '_deployed'" [(ngModel)]="stage.isDeployed">{{ stage.name }} Deployed</mat-checkbox>
+                  </div>
+                  <div class="col-10">
+                      <mat-checkbox [name]="stage.name + '_signedoff'" [(ngModel)]="stage.isSignedOff">{{ stage.name }} Signed Off</mat-checkbox>
+                  </div>
+                </div>
+                <button type="submit" mat-raised-button color="primary">Save</button>
+                <button routerLink="/features" mat-raised-button class="ml-2">Cancel</button>
+            </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  

@@ -1,0 +1,18 @@
+<mat-form-field>
+  <mat-select 
+    [placeholder]="placeholderLabel"
+    [formControl]="selectCtrl"
+    (selectionChange)="onSelectionChanged($event)"
+    #singleSelect>
+    <mat-option>
+      <ngx-mat-select-search 
+        [formControl]="searchInputCtrl"
+        [placeholderLabel]="'Search...'"
+        [noEntriesFoundLabel]="'No results'">
+      </ngx-mat-select-search>
+    </mat-option>
+    <mat-option *ngFor="let item of filteredItems | async" [value]="item">
+      {{item.name}}
+    </mat-option>
+  </mat-select>        
+</mat-form-field>

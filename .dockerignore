@@ -1,0 +1,7 @@
+bin\
+obj\
+.git\
+.vs\
+.vscode\
+Pipelines.Dashboard.Website\
+Pipelines.Dashboard.Website/*

@@ -1,0 +1,35 @@
+<div class="row">
+    <div class="col mb-2">
+        <button mat-raised-button class="float-right" (click)="onRefreshClick()">
+          Refresh
+          <mat-icon>refresh</mat-icon>
+        </button>
+    </div>
+</div>
+<div class="row">
+    <div class="col">
+        <mat-form-field>
+            <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+        </mat-form-field>
+        <div class="mat-elevation-z8">
+            <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+                <ng-container matColumnDef="releaseDefinitionName">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Release Definition Name</th>
+                    <td mat-cell *matCellDef="let element">{{ element.releaseDefinitionName }}</td>
+                </ng-container>
+                <ng-container matColumnDef="environmentName">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Environment Name</th>
+                    <td mat-cell *matCellDef="let element">{{ element.environmentName }}</td>
+                </ng-container>
+                <ng-container matColumnDef="completedOn">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Completed On</th>
+                    <td mat-cell *matCellDef="let element">{{ element.completedOn }}</td>
+                </ng-container>
+                
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+            <mat-paginator [pageSizeOptions]="[15, 50, 100]"></mat-paginator>
+        </div>
+    </div>
+</div>
